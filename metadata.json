@@ -1,0 +1,11 @@
+{
+  "name": "반짝반짝 직업 탐험대",
+  "description": "특수교육 학생들을 위한 활동 중심 진로·직업 체험 및 실시간 교사 모니터링 웹앱",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

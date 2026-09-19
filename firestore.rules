@@ -1,0 +1,35 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to validate mission records
+    function isValidMission(data) {
+      return data.studentId is string &&
+             data.studentNickname is string &&
+             data.missionType in ['barista', 'greeting'] &&
+             data.missionTitle is string &&
+             data.status in ['completed', 'in_progress'] &&
+             data.timestamp is number;
+    }
+
+    // Missions collection: Allows reading and creating student progress records
+    match /missions/{missionId} {
+      allow read: if true;
+      allow create: if isValidMission(request.resource.data);
+      allow update, delete: if false;
+    }
+
+    // Broadcasts collection: Teacher praise messages
+    match /broadcasts/{broadcastId} {
+      allow read: if true;
+      allow create: if request.resource.data.type is string &&
+                      request.resource.data.message is string &&
+                      request.resource.data.timestamp is number;
+      allow update, delete: if false;
+    }
+
+    // Connection test status
+    match /_connection_test/{docId} {
+      allow read: if true;
+    }
+  }
+}
